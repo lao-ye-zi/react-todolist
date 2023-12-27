@@ -1,45 +1,18 @@
 import React, { useState, ChangeEvent, Fragment, useEffect } from 'react';
+import './TodoList.css';
 
-
-
-// interface TodoListProps {
-//   initialData: {
-//     inputValue: string;
-//     completed: string[];
-//     notCompleted: string[];
-//   };
-// }
 
 type todoThing = {
   content:string;
   completed:boolean;
 }
 
-interface ThemeStyle {
-  backgroundColor: string;
-  color: string;
-}
-
-interface ThemeStylesDictionary {
-  light: ThemeStyle;
-  dark: ThemeStyle;
-}
 
 const TodoList: React.FC = () => {
   const [inputValue, setInputValue] = useState("");
   const [todos,setTodos] = useState<todoThing[]>([]);
-  
-  const themeStyles:ThemeStylesDictionary = {
-    light: {
-      backgroundColor: '#ffffff',
-      color: '#000000',
-    },
-    dark: {
-      backgroundColor: '#333333',
-      color: '#ffffff',
-    },
-  };  
-  const [backGround,setBackGround] = useState<ThemeStyle>(themeStyles.light);
+  const [isDarkMode, setDarkMode] = useState(false);
+   
 
   useEffect(() => {
     const savedTodos = localStorage.getItem('todos');
@@ -78,7 +51,15 @@ const TodoList: React.FC = () => {
   };
 
   const handleBgChangeBtnClick = ():void => {
-    setBackGround((prevBg) => (prevBg === themeStyles.light ? themeStyles.dark : themeStyles.light));
+    setDarkMode((prevMode) => !prevMode);
+    if(isDarkMode){
+      document.body.style.setProperty('background-color', '#ffffff');
+      document.body.style.color = '#000000';
+    }
+    else{
+      document.body.style.backgroundColor = '#333333';
+      document.body.style.color = '#ffffff';
+    }
   }
 
   const handleToggleBtnClick = (index: number): void => {
@@ -106,20 +87,24 @@ const TodoList: React.FC = () => {
     });
   }
 
-  
+
 
   return (
     <Fragment>
-      <h3>新建任务</h3>
-      <div style={backGround}>
-        
+      <div className="grid">
+      <div className="left"></div>
+      <div className="right"></div>
+    </div>
+      <h3 className='title'>新建任务</h3>
+      <div className='container'>
         <input value={inputValue} onChange={handleInputChange} />
-        <button onClick={handleInputBtnClick}>提交</button>
-        <button onClick={handleBgChangeBtnClick}>更改主题</button>
+        <button className='bluebuttoncss' onClick={handleInputBtnClick}>提交</button>
+        <button className='redbuttoncss' onClick={handleBgChangeBtnClick}>更改主题</button>
+        <button onClick={() => handleSaveBtnClick({inputValue,todos},'todolist')}>保存json到本地</button>
       </div>
-      <button onClick={() => handleSaveBtnClick({inputValue,todos},'todolist')}>保存</button>
-      <h3>未完成</h3>
-      <ul>
+      
+      <h3 className='title'>未完成</h3>
+      <ul className='container'>
         {
           todos.map((todo,index) => {
             if(!todo.completed)
@@ -137,8 +122,8 @@ const TodoList: React.FC = () => {
           })
         }
       </ul>
-      <h3>已完成</h3>
-      <ul>
+      <h3 className='title'>已完成</h3>
+      <ul className='container'>
       {
           todos.map((todo,index) => {
             if(todo.completed)
