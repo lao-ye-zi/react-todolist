@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, Fragment, useEffect } from 'react';
+import React, { useState, ChangeEvent, Fragment, useEffect} from 'react';
 import './TodoList.css';
 
 
@@ -31,11 +31,24 @@ const TodoList: React.FC = () => {
     setInputValue(e.target.value);
   };
 
+  const onEnterDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') {
+      handleInputBtnClick();
+    }
+  }
+
+  const onIndexEnterDown = (e: React.KeyboardEvent<HTMLInputElement>, index:number): void => {
+    if (e.key === 'Enter') {
+      handleContentChange(index,e.currentTarget.value);
+      (e.target as HTMLInputElement).blur();
+    }
+  }
+
   const handleContentChange = (index:number, newContext:string):void =>{
     setTodos((prevTodos) => {
       prevTodos[index].content  = newContext;
       return prevTodos.slice();
-    })
+    });
   }
 
   const handleInputBtnClick = (): void => {
@@ -97,7 +110,7 @@ const TodoList: React.FC = () => {
     </div>
       <h3 className='title'>新建任务</h3>
       <div className='container'>
-        <input value={inputValue} onChange={handleInputChange} />
+        <input value={inputValue} onChange={handleInputChange} onKeyDown={(e)=>onEnterDown(e)}/>
         <button className='bluebuttoncss' onClick={handleInputBtnClick}>提交</button>
         <button className='redbuttoncss' onClick={handleBgChangeBtnClick}>更改主题</button>
         <button onClick={() => handleSaveBtnClick({inputValue,todos},'todolist')}>保存json到本地</button>
@@ -110,9 +123,10 @@ const TodoList: React.FC = () => {
             if(!todo.completed)
             return (
               <li key={index}>
-            <textarea
+            <input
                 value={todo.content}
                 onChange={(e) => handleContentChange(index, e.target.value)}
+                onKeyDown={(e)=>onIndexEnterDown(e,index)}
               />
             <button onClick={() => handleToggleBtnClick(index)}>已完成</button>
             <button onClick={() => handleDeleteBtnClick(index)}>删除任务</button>
@@ -129,9 +143,10 @@ const TodoList: React.FC = () => {
             if(todo.completed)
             return (
               <li key={index}>
-            <textarea
+            <input
                 value={todo.content}
                 onChange={(e) => handleContentChange(index, e.target.value)}
+                onKeyDown={(e)=>onIndexEnterDown(e,index)}
               />
             <button onClick={() => handleToggleBtnClick(index)}>未完成</button>
             <button onClick={() => handleDeleteBtnClick(index)}>删除任务</button>
