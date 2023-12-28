@@ -26,27 +26,18 @@
 .bluebuttoncss {
     font-family: "tahoma", "宋体";
     font-size: 15pt; color: #003366;
-    border: 0px #93bee2 solid;
-    border-bottom: #93bee2 1px solid;
-    border-left: #93bee2 1px solid;
-    border-right: #93bee2 1px solid;
-    border-top: #93bee2 1px solid;
+    border: 1px #003366 solid;
     /* background-image:url(../images/blue_button_bg.gif); */
-    background-color: #ffffff;
+    background-color: navajowhite;
     cursor: hand;
     font-style: normal ;
 }
 
 .redbuttoncss {
     font-family: "tahoma", "宋体"; /*www.52css.com*/
-    font-size: 15pt; color: #0066cc;
-    border: 1px #93bee2 solid;
-    border-bottom: #93bee2 1px solid;
-    border-left: #93bee2 1px solid;
-    border-right: #93bee2 1px solid;
-    border-top: #93bee2 1px solid;
-    /* background-image:url(../images/redbuttonbg.gif); */
-    background-color: #ffffff;
+    font-size: 15pt; color: red;
+    border: 1px red solid;
+    background-color: navajowhite;
     cursor: hand;
     font-style: normal ;
 }
@@ -54,34 +45,64 @@
 .grid {
     display: grid;
     transition: 300ms;
-    height: 20vh;
-    grid-template-columns: var(--left, 48px) auto;
+    grid-template-columns: var(--left, 90px) auto;
+    height: fit-content;
 }
   
 .grid:has(.left:hover) {
-    --left: 30%;
+    --left: 40%;
 }
 
 .left{
-    background: crimson;
+    background: #ccc;
 }
 
 .right {
     background: navajowhite;
-    border: 3rem solid rgb(0 0 0 / 10%);
+    border: 3rem solid rgb(0 0 0 / 5%);
   }
+
+input{
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    background-color: navajowhite;
+    width: fit-content;
+    box-sizing: border-box;
+}
+
+input:has(:focus){
+    border: 1px solid #000;
+}
+
 
 body {
     padding: 20px;
+    background-color: navajowhite;
     transition: background-color 0.3s ease; /* 添加过渡效果 */
   }
   
   body.light-mode {
-    background-color: aquamarine;
+    background-color: navajowhite;
     color: #000000;
   }
   
   body.dark-mode {
     background-color: #333333;
     color: #ffffff;
+  }
+
+  ul{
+    width: 100%;
+  }
+
+  li {
+    height: 40px;
+    width: 80%;
+    max-width: fit-content;
+    line-height: 40px;
+    background-color: #eee;
+    margin-top: 5px;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
   }
